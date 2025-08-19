@@ -1,0 +1,6 @@
+flask
+twilio
+pandas
+openpyxl
+rapidfuzz
+gunicorn
