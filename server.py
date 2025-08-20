@@ -124,11 +124,20 @@ def _get_session(phone):
 # Access/admin/rate-limit/pause/metrics
 # ==============================
 def _normalize_e164(n: str) -> str:
-    if not n: return ""
-    n = n.strip().replace(" ", "").replace("-", "").replace("(", "").replace(")")
+    if not n:
+        return ""
+    n = str(n)
+    n = (
+        n.strip()
+         .replace(" ", "")
+         .replace("-", "")
+         .replace("(", "")
+         .replace(")", "")   # <-- second argument added
+    )
     if n and not n.startswith("+") and n.isdigit() and len(n) == 10:
         n = "+1" + n
     return n
+
 
 def _load_set(path: str) -> set:
     if not os.path.exists(path): return set()
