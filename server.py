@@ -20,19 +20,29 @@ PROMO_FOOTER = "Platinum Promotion – Platinum same price as 18KT."
 # --- Access/abuse control ---
 ACCESS_MODE = "open"                   # "open" or "closed"
 SILENT_REJECT = False                  # if True, unauthorized get no reply
-ALLOWLIST_PATH = "allowlist.json"
-DENYLIST_PATH  = "denylist.json"
 ADMIN_NUMBERS  = {"+19173555884"}      # <-- your admin number (E.164)
+
+import os, pathlib  # add once near the top with other imports/constants
+
+# Use the Render Disk if present; otherwise use the current folder (for local runs)
+DATA_DIR = pathlib.Path(os.getenv("DATA_DIR", "/var/data"))
+if not DATA_DIR.exists():
+    DATA_DIR = pathlib.Path(".")
+
+# ---- Persistent file locations (now on the disk) ----
+ALLOWLIST_PATH = str(DATA_DIR / "allowlist.json")
+DENYLIST_PATH  = str(DATA_DIR / "denylist.json")
+STATE_PATH     = str(DATA_DIR / "state.json")      # stores {"paused": bool}
+METRICS_PATH   = str(DATA_DIR / "metrics.ndjson")  # append-only
+
 
 RL_WINDOW_SECS = 300                   # rate limit window for unknowns
 RL_MAX_PER_WINDOW = 5
 
 # --- Pause switch (persisted) ---
-STATE_PATH = "state.json"              # stores {"paused": bool}
 GLOBAL_PAUSED_DEFAULT = False
 
 # --- Metrics & cost estimate ---
-METRICS_PATH = "metrics.ndjson"        # append-only
 SMS_IN_COST  = 0.0075
 SMS_OUT_COST = 0.0075
 
