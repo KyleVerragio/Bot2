@@ -14,6 +14,9 @@ FALLBACK_LINK_IN_TEXT = True           # also include clickable link in text
 MAX_LISTED_STYLES = 10                 # cap refine lists
 SESSION_TTL_SECS = 600                 # 10 min selection window
 
+# Promo footer (no "Additional info:" prefix)
+PROMO_FOOTER = ""
+
 # --- Access/abuse control ---
 ACCESS_MODE = "open"                   # "open" or "closed"
 SILENT_REJECT = False                  # if True, unauthorized get no reply
@@ -456,10 +459,6 @@ def format_response(matches_df, include_link_line=False):
         if note2:
             lines.append(note2)
             lines.append("")
-
-        # promo footer
-        if PROMO_FOOTER:
-            lines.append(PROMO_FOOTER)
 
         # trim trailing blanks
         while lines and lines[-1] == "":
