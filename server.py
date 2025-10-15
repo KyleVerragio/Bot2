@@ -460,6 +460,7 @@ def format_response(matches_df, include_link_line=False):
             lines.append(note2)
             lines.append("")
 
+      
         # trim trailing blanks
         while lines and lines[-1] == "":
             lines.pop()
