@@ -14,9 +14,6 @@ FALLBACK_LINK_IN_TEXT = True           # also include clickable link in text
 MAX_LISTED_STYLES = 10                 # cap refine lists
 SESSION_TTL_SECS = 600                 # 10 min selection window
 
-# Promo footer (no "Additional info:" prefix)
-PROMO_FOOTER = "Platinum Promotion – Platinum same price as 18KT."
-
 # --- Access/abuse control ---
 ACCESS_MODE = "open"                   # "open" or "closed"
 SILENT_REJECT = False                  # if True, unauthorized get no reply
