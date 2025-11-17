@@ -644,7 +644,7 @@ def sms_reply():
             DENYLIST.add(_normalize_e164(from_num)); _save_set(DENYLIST_PATH, DENYLIST)
         if SILENT_REJECT:
             return str(resp)
-        denial = "This number is not authorized to use this bot."
+        denial = "This number is not authorized to use the Verragio Pricing Bot. Please contact a Verragio representative to be added or re-added."
         resp.message(denial)
         log_event("out", to_num, from_num, denial, False, "deny")
         return str(resp)
