@@ -18,7 +18,7 @@ SESSION_TTL_SECS = 600                 # 10 min selection window
 PROMO_FOOTER = ""
 
 # --- Access/abuse control ---
-ACCESS_MODE = "open"                   # "open" or "closed"
+ACCESS_MODE = "closed"                   # "open" or "closed"
 SILENT_REJECT = False                  # if True, unauthorized get no reply
 ADMIN_NUMBERS  = {"+19173555884"}      # <-- your admin number (E.164)
 
@@ -142,7 +142,7 @@ def _normalize_e164(n: str) -> str:
          .replace(" ", "")
          .replace("-", "")
          .replace("(", "")
-         .replace(")", "")   # <-- second argument added
+         .replace(")", "")
     )
     if n and not n.startswith("+") and n.isdigit() and len(n) == 10:
         n = "+1" + n
@@ -308,7 +308,7 @@ def handle_admin_command(from_num: str, body: str):
       MODE OPEN|CLOSED
       SILENT ON|OFF   (or just 'SILENT' to toggle)
       ADD +1XXXXXXXXXX / REMOVE +1XXXXXXXXXX / LIST
-      BLOCK +1XXXXXXXXXX / UNBLOCK +1XXXXXXXXXX
+      BLOCK +1XXXXXXXXXX / UNBLOCK +1XXXXXXXXXX / LISTBLOCKED
       REPORT
     Returns text or None if not admin/not a command.
     """
@@ -324,7 +324,7 @@ def handle_admin_command(from_num: str, body: str):
     def _num(arg): return _normalize_e164(arg)
 
     if up == "STATUS":
-        return f"Status: MODE={ACCESS_MODE.upper()}, SILENT={SILENT_REJECT}, PAUSED={STATE.get('paused', False)}"
+        return f"Status: MODE={ACCESS_MODE.upper()}, SILENT={SILENT_REJECT}, PAUSED={STATE.get('paused', False)}, ALLOWLIST={len(ALLOWLIST)}, DENYLIST={len(DENYLIST)}"
     if up == "PAUSE":
         STATE["paused"] = True; _save_state(STATE)
         return "Bot paused for everyone."
@@ -351,10 +351,15 @@ def handle_admin_command(from_num: str, body: str):
 
     if up == "LIST":
         return "Allow-list:\n" + ("\n".join(sorted(ALLOWLIST)) if ALLOWLIST else "(empty)")
+    if up == "LISTBLOCKED":
+        return "Deny-list:\n" + ("\n".join(sorted(DENYLIST)) if DENYLIST else "(empty)")
     if up.startswith("ADD "):
         num = _num(txt[4:])
         if not num: return "Usage: ADD +1XXXXXXXXXX"
         ALLOWLIST.add(num); _save_set(ALLOWLIST_PATH, ALLOWLIST)
+        # Also remove from denylist if present
+        if num in DENYLIST:
+            DENYLIST.discard(num); _save_set(DENYLIST_PATH, DENYLIST)
         return f"Added {num}. Allow-list size: {len(ALLOWLIST)}"
     if up.startswith("REMOVE "):
         num = _num(txt[7:])
@@ -638,10 +643,10 @@ def sms_reply():
     if STATE.get("paused", False):
         return str(resp)
 
-    # access control
+    # access control - REMOVED AUTO-DENYLIST
     if not is_authorized(from_num):
-        if record_and_check_rate(from_num):
-            DENYLIST.add(_normalize_e164(from_num)); _save_set(DENYLIST_PATH, DENYLIST)
+        # Just track rate limit but don't auto-block
+        record_and_check_rate(from_num)
         if SILENT_REJECT:
             return str(resp)
         denial = "This number is not authorized to use the Verragio Pricing Bot. Please contact a Verragio representative to be added or re-added."
