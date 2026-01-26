@@ -20,7 +20,7 @@ PROMO_FOOTER = ""
 # --- Access/abuse control ---
 ACCESS_MODE = "closed"                   # "open" or "closed"
 SILENT_REJECT = False                  # if True, unauthorized get no reply
-ADMIN_NUMBERS  = {"+19173555884"}      # <-- your admin number (E.164)
+ADMIN_NUMBERS = {"+19173555884", "+19179939093", "+16462846597"}  # <-- admin numbers (E.164)
 
 import os, pathlib  # add once near the top with other imports/constants
 
