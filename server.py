@@ -361,6 +361,20 @@ def handle_admin_command(from_num: str, body: str):
         if num in DENYLIST:
             DENYLIST.discard(num); _save_set(DENYLIST_PATH, DENYLIST)
         return f"Added {num}. Allow-list size: {len(ALLOWLIST)}"
+    if up.startswith("BULKADD "):
+        nums_text = txt[8:]
+        nums_list = [_num(n.strip()) for n in nums_text.split(",")]
+        nums_list = [n for n in nums_list if n]
+        if not nums_list: return "Usage: BULKADD +1XXXXXXXXXX,+1XXXXXXXXXX,..."
+        added_count = 0
+        for num in nums_list:
+            ALLOWLIST.add(num)
+            if num in DENYLIST:
+                DENYLIST.discard(num)
+            added_count += 1
+        _save_set(ALLOWLIST_PATH, ALLOWLIST)
+        _save_set(DENYLIST_PATH, DENYLIST)
+        return f"Added {added_count} number(s). Allow-list size: {len(ALLOWLIST)}"
     if up.startswith("REMOVE "):
         num = _num(txt[7:])
         if not num: return "Usage: REMOVE +1XXXXXXXXXX"
