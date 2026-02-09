@@ -646,6 +646,13 @@ def sms_reply():
     if incoming.upper() in OPT_KEYWORDS:
         return str(resp)
 
+    # Special command: Mod Sheet
+    if incoming.upper() in ["MOD SHEET", "MODSHEET", "MODIFICATION SHEET"]:
+        text = "Modification Sheet: https://verragio.stockpress.co/l/798823b5ab5f5531/Modification+2026.pdf"
+        resp.message(text)
+        log_event("out", to_num, from_num, text, True, "modsheet")
+        return str(resp)
+
     # admin commands (always)
     admin_reply = handle_admin_command(from_num, incoming)
     if admin_reply is not None:
