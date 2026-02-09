@@ -105,10 +105,10 @@ df["ATTRIBUTE"] = pd.to_numeric(df["ATTRIBUTE"], errors="coerce").fillna(1).asty
 # Center-size rule lines by ATTRIBUTE (0 = no line)
 # ==============================
 RULE_TEXT = {
-    1: ("Center-size (any shape):\n- Up to 3.00ct: no charge\n- 3.01ct and above: +$600"),
-    2: ("Center-size (any shape):\n- Up to 2.50ct: no charge\n- 2.51–3.50ct: +$800\n- 3.51–4.50ct: +$1,200\n- 4.51ct and above: +$1,800"),
-    3: ("Center-size (any shape):\n- Up to 2.50ct: no charge\n- 2.51–3.50ct: +$1,200\n- 3.51–4.50ct: +$1,600\n- 4.51ct and above: +$1,800"),
-    4: ("Center-size (any shape):\n- Up to 2.50ct: no charge\n- 2.51–3.50ct: +$1,200\n- 3.51–4.50ct: +$1,800\n- 4.51ct and above: +$2,400"),
+    1: ("Center-size (any shape):\n- Up to 3.00ct: no charge\n- 3.01ct and above: +$800"),
+    2: ("Center-size (any shape):\n- Up to 2.50ct: no charge\n- 2.51–3.50ct: +$1,000\n- 3.51–4.50ct: +$1,400\n- 4.51ct and above: +$2,000"),
+    3: ("Center-size (any shape):\n- Up to 2.50ct: no charge\n- 2.51–3.50ct: +$1,400\n- 3.51–4.50ct: +$1,800\n- 4.51ct and above: +$2,000"),
+    4: ("Center-size (any shape):\n- Up to 2.50ct: no charge\n- 2.51–3.50ct: +$1,400\n- 3.51–4.50ct: +$2,000\n- 4.51ct and above: +$2,600"),
 }
 
 # ==============================
