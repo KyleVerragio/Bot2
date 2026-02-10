@@ -647,7 +647,7 @@ def sms_reply():
         return str(resp)
 
     # Special command: Mod Sheet
-    if incoming.upper() in ["MOD SHEET", "MODSHEET", "MODIFICATION SHEET"]:
+    if incoming.upper() in ["MOD SHEET", "MODSHEET", "MODIFICATION SHEET", "MOD"]:
         text = "Modification Sheet: https://verragio.stockpress.co/l/798823b5ab5f5531/Modification+2026.pdf"
         resp.message(text)
         log_event("out", to_num, from_num, text, True, "modsheet")
