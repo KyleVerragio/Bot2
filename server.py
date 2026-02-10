@@ -467,6 +467,12 @@ def format_response(matches_df, include_link_line=False):
             lines.append(RULE_TEXT[attr])
             lines.append("")
 
+ 	# total weight
+        weight = group.iloc[0].get("TotalWeight", "")
+        if weight and str(weight).strip() and str(weight).lower() != "nan":
+            lines.append(f"Total Weight: {weight}")
+            lines.append("")
+
         # notes
         note = _first_nonempty_note(group)
         if note:
