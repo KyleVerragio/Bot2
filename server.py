@@ -9,7 +9,7 @@ import re, time, json, os, math, datetime
 # ==============================
 # Config
 # ==============================
-USE_MMS = True                        # attach 1st image per style (if available)
+USE_MMS = False                        # attach 1st image per style (if available)
 FALLBACK_LINK_IN_TEXT = False           # also include clickable link in text
 MAX_LISTED_STYLES = 10                 # cap refine lists
 SESSION_TTL_SECS = 600                 # 10 min selection window
